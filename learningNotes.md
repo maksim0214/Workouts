@@ -42,3 +42,8 @@ and there are new GraphQL schema & config file
 
 # 3.5 run stepzen
     stepzen start
+
+
+# 4 install tanstack/react-query
+    npm i @tanstack/react-query
+    npm i -D @tanstack/eslint-plugin-query

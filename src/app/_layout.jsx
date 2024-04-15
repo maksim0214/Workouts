@@ -1,9 +1,11 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { View, Text } from "react-native-web";
+import {QueryClientProvider, QueryClient} from '@tanstack/react-query'
 
 
 
 export default function HomeLayout() {
+    const queryClient = new QueryClient()
     const params = useLocalSearchParams()
     console.log(params);
     const options = {
@@ -17,10 +19,13 @@ export default function HomeLayout() {
             fontWeight: 'bold',
         }
     }
+
     return (
-        <Stack style={style}>
-            <Stack.Screen name='index' options={options} />
-        </Stack>
+        <QueryClientProvider>
+            <Stack style={style}>
+                <Stack.Screen name='index' options={options} />
+            </Stack>
+        </QueryClientProvider>
     );
 }
 
