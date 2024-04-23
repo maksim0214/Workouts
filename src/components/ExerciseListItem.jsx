@@ -6,7 +6,7 @@ export default function ExerciseListItem({ item }) {
     <Link href={`/${item.name}`} asChild>
       <Pressable  style={styles.exercisesContainer}>
         <Text style={styles.exercisesName}>{item.name}</Text>
-        {/* <Text style={styles.exercisesName}>{item.type}</Text> */}
+        <Text style={styles.exercisesName}>{item.type}</Text>
         {/* <Text style={styles.exercisesName}>{item.type + key}</Text> */}
         {/* <Text style={styles.exercisesName}>{Object.entries(item)}</Text> */}
         <Text style={styles.exercisesSubtitle}>{item.muscle} | {item.equipment}</Text>

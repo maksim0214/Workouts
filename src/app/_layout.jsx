@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { View, Text } from "react-native-web";
+// import { View, Text } from "react-native-web";
 import {QueryClientProvider, QueryClient} from '@tanstack/react-query'
 
 
@@ -7,7 +7,7 @@ import {QueryClientProvider, QueryClient} from '@tanstack/react-query'
 export default function HomeLayout() {
     const queryClient = new QueryClient()
     const params = useLocalSearchParams()
-    console.log(params);
+    console.log('_layout/params: ', params);
     const options = {
         // title: params.name,
         title: 'AllExercises',
@@ -21,7 +21,7 @@ export default function HomeLayout() {
     }
 
     return (
-        <QueryClientProvider>
+        <QueryClientProvider  client={queryClient}>
             <Stack style={style}>
                 <Stack.Screen name='index' options={options} />
             </Stack>
@@ -30,7 +30,7 @@ export default function HomeLayout() {
 }
 
 const style = {
-    flex: 1, 
+    // flex: 1, 
     alignItems: 'center', 
     justifyContent: 'center',
 }

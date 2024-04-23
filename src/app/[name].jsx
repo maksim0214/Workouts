@@ -1,18 +1,47 @@
-import { View, Text,ScrollView,Animated } from "react-native-web";
+import { View, Text, ScrollView, Animated } from "react-native-web";
 import { useLocalSearchParams, Stack } from 'expo-router'
-import exercises from '../../assets/data/exercises.json'
+// import exercises from '../../assets/data/exercises.json'
+import { gql } from 'graphql-request'
+import graphqlClient from '../graphqlClient'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from "react";
 
-export default function Exercise() {
-  const params = useLocalSearchParams()
-  const exercise = exercises.find(exercise => (
-    exercise.name === params.name
-  ))
+const exercisesDetailQuery = gql`
+  query exercises($name:String) {
+    exercises(name: $name) {
+      name
+      type
+      muscle
+      equipment
+      difficulty
+      instructions
+    }
+  }`
 
-  const [isExpanded, setExpanded]= useState(false)
+export default function Exercise() {
+  // const params = useLocalSearchParams()
+  // const exercise = exercises.find(exercise => (
+    //   exercise.name === params.name
+    // ))
+
+  const [isExpanded, setExpanded] = useState(false)
+  const { name } = useLocalSearchParams()
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['exercises', name],
+    queryFn: () => graphqlClient.request(exercisesDetailQuery,{name})
+  })
+  
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Something went wrong...</p>
+  
+  let exercise = data.exercises[0]
+  // console.log('exercisesDetail:', data);
+
   const StackScreenOptions = {
+    // title: exercise.name,
     title: exercise.name,
-    headerStyle:{
+    headerStyle: {
       backgroundColor: '#83b2dd',
     }
   }
@@ -40,15 +69,15 @@ export default function Exercise() {
     instructions: {
       fontSize: 16,
       lineHeight: 22,
-  
+
       // height: isExpanded ? 120 : 150, // 初始高度和最大高度
       // overflow: 'hidden',
     },
-    seeMore:{
-      alignSelf:'center',
-      fontWeight:600,
+    seeMore: {
+      alignSelf: 'center',
+      fontWeight: 600,
     }
-  
+
   };
   if (!exercise)
     return (
@@ -70,10 +99,10 @@ export default function Exercise() {
       <Text style={styles.value}>{exercise.difficulty}</Text>
       <Text style={styles.label}>Instructions:</Text>
       <Animated.View>
-        <Text style={styles.instructions} numberOfLines={isExpanded ? 0:5}>{exercise.instructions}</Text>
+        <Text style={styles.instructions} numberOfLines={isExpanded ? 0 : 5}>{exercise.instructions}</Text>
       </Animated.View>
       <br></br>
-      <Text style={styles.seeMore} onPress={()=>setExpanded(!isExpanded)}>{isExpanded?'See Less':'See More'}</Text>
+      <Text style={styles.seeMore} onPress={() => setExpanded(!isExpanded)}>{isExpanded ? 'See Less' : 'See More'}</Text>
       {/* <Text style={styles.instructions} >{exercise.instructions}</Text> */}
     </ScrollView>
   );
