@@ -44,6 +44,27 @@ and there are new GraphQL schema & config file
     stepzen start
 
 
-# 4 install tanstack/react-query
+# 4 状态管理 install tanstack/react-query
     npm i @tanstack/react-query
     npm i -D @tanstack/eslint-plugin-query
+
+# 5 Graphql轻量级客户端库 install graphql-request & graphql
+    install graphql-request  graphql
+
+
+
+
+Bug Fixed
+# 1 expo 和 metro 对 mjs文件的支持
+    "Metro has encountered an error: While trying to resolve module `graphql` from file 
+     the package `C:\\Users\\Lee\\工作目录\\MyCode\\2024.4.5_ReactNativeDemo\\Workouts\\node_modules\\graphql\\package.json` was successfully found. However, this package itself specifies a `main` module field that could not be resolved 
+    `C:\\Users\\Lee\\工作目录\\MyCode\\2024.4.5_ReactNativeDemo\\Workouts\\node_modules\\graphql\\index.mjs`. 
+     Indeed, none of these files exist:
+
+在根目录创建metro配置文件
+npx expo customize metro.config.js
+如何加入
+config.resolver.sourceExts.push('cjs');
+config.resolver.sourceExts.push('mjs');
+config.resolver.assetExts.push('cjs');
+config.resolver.assetExts.push('mjs');
